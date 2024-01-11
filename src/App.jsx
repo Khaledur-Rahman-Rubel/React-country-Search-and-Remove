@@ -1,36 +1,16 @@
-import { useState, useEffect } from "react";
-
 import "./App.css";
 import Search from "./assets/Search";
 import Countries from "./assets/Countries";
-
-const url = "https://restcountries.com/v3.1/all";
+import useFetch from "./useFetch";
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(); //If data loading
-  const [error, setError] = useState(); // If catch any error
-  const [countries, setCountries] = useState([]); // data reserver
-  const [filteredCountries, setFilteredCountries] = useState(countries);
-
-  const fetchData = async (url) => {
-    setIsLoading(true);
-    try {
-      const respons = await fetch(url);
-      const data = await respons.json();
-      setCountries(data);
-      setFilteredCountries(data);
-      setIsLoading(false);
-      setError(null);
-    } catch (error) {
-      setIsLoading(false);
-      setError(error);
-    }
-  };
-
-  useEffect(() => {
-    /* for data fetch */
-    fetchData(url);
-  }, []);
+  const {
+    isLoading,
+    error,
+    countries,
+    filteredCountries,
+    setFilteredCountries,
+  } = useFetch("https://restcountries.com/v3.1/all");
 
   const handleRemoveCountry = (removeName) => {
     const filter = filteredCountries.filter(
